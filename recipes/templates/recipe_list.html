@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+<h1 style="text-align: center;">Все рецепты</h1>
+<div id="recipe-list" style="display: flex; flex-wrap: nowrap; overflow-x: scroll;">
+    {% for recipe in recipes %}
+    <div class="recipe-card" style="margin: 20px; padding: 20px; max-width: 1000px; background: linear-gradient(to bottom, rgba(180, 214, 163, 0.6), rgba(206, 235, 66, 0.5)); border-radius: 10px; ">
+        <h2 style="text-align: center;"><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a></h2>
+        <div style="display: flex; justify-content: center;">
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" style="max-width: 600px; height: 600px; object-position: center center; object-fit: cover; border-radius: 10px; ">
+        </div>
+        <div style="text-align: center; margin-top: 10px; border-top: 1px solid rgba(206, 235, 66, 1);"> </div>
+        <div style="text-align: center; margin-top: 5px;">
+            <p>{{ recipe.ingredients|slice:":205" }}...</p>
+            <p>{{ recipe.instructions|slice:":100" }}...</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block scripts %}
+
+<script>
+    // Горизонтальная прокрутка с помощью колесика мыши
+    const recipeList = document.getElementById('recipe-list');
+
+    recipeList.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        recipeList.scrollLeft += event.deltaY;
+    });
+</script>
+{% endblock %}
+
+{% block styles %}
+
+<style>
+    .recipe-card {
+        flex: 0 0 auto;
+        width: 30%;
+        margin: 0 auto;
+    }
+
+</style>
+{% endblock %}

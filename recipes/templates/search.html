@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="text-align: center;">Результаты поиска</h1>
+    {% if recipes %}
+        {% for recipe in recipes %}
+<div style="margin: 20px auto; max-width: 600px; background: linear-gradient(to bottom, rgba(180, 214, 163, 0.6), rgba(206, 235, 66, 0.5)); border-radius: 10px; overflow: hidden;">
+    <a href="{% url 'recipe_detail' recipe.id %}">
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="card-img-top" style="width: 100%; height: 200px; object-position: center center; object-fit: cover;">
+    </a>
+    <div style="padding: 10px;">
+        <a href="{% url 'recipe_detail' recipe.id %}">
+            <h2 style="text-align: center;">{{ recipe.name }}</h2>
+        </a>
+        <p style="text-align: center;">{{ recipe.ingredients|slice:":205" }}...</p>
+        <p style="text-align: center;">{{ recipe.instructions|slice:":100" }}...</p>
+    </div>
+</div>
+        {% endfor %}
+    {% else %}
+<p style="text-align: center;">По вашему запросу ничего не найдено.</p>
+    {% endif %}
+{% endblock %}
